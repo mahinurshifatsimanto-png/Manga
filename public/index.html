@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>মাঙ্গা বাংলা অনুবাদক</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Ambient background lines -->
+  <div class="bg-lines" aria-hidden="true">
+    <div class="speed-line"></div><div class="speed-line"></div>
+    <div class="speed-line"></div><div class="speed-line"></div>
+    <div class="speed-line"></div><div class="speed-line"></div>
+  </div>
+
+  <div class="app-wrapper">
+
+    <!-- Header -->
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="logo-mark" aria-hidden="true">漫</div>
+        <div class="site-title">
+          <h1>মাঙ্গা বাংলা অনুবাদক</h1>
+          <span class="site-subtitle">AI দিয়ে জাপানি মাঙ্গা বাংলায় রূপান্তর</span>
+        </div>
+        <div class="gemini-badge">Powered by<br/><strong>Gemini AI</strong></div>
+      </div>
+    </header>
+
+    <main class="main-content">
+
+      <!-- Upload Section -->
+      <section class="upload-section" id="uploadSection">
+        <div class="upload-zone" id="uploadZone" tabindex="0" role="button" aria-label="মাঙ্গা পেজ আপলোড করুন">
+          <div class="upload-icon" aria-hidden="true">
+            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+              <rect x="8" y="8" width="22" height="30" rx="2" stroke="currentColor" stroke-width="2.5"/>
+              <rect x="14" y="12" width="10" height="2" rx="1" fill="currentColor" opacity="0.5"/>
+              <rect x="14" y="16" width="10" height="2" rx="1" fill="currentColor" opacity="0.5"/>
+              <rect x="14" y="20" width="7" height="2" rx="1" fill="currentColor" opacity="0.5"/>
+              <rect x="34" y="8" width="22" height="30" rx="2" stroke="currentColor" stroke-width="2.5"/>
+              <rect x="40" y="12" width="10" height="2" rx="1" fill="currentColor" opacity="0.5"/>
+              <rect x="40" y="16" width="10" height="2" rx="1" fill="currentColor" opacity="0.5"/>
+              <rect x="40" y="20" width="7" height="2" rx="1" fill="currentColor" opacity="0.5"/>
+              <path d="M32 42 L32 58 M25 51 L32 58 L39 51" stroke="#e8c547" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <p class="upload-main-text">মাঙ্গা পেজ এখানে টেনে আনুন</p>
+          <p class="upload-sub-text">অথবা ক্লিক করে ফাইল বেছে নিন</p>
+          <p class="upload-formats">JPG · PNG · WEBP · সর্বোচ্চ ৮MB</p>
+          <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" hidden />
+        </div>
+
+        <!-- Preview -->
+        <div class="preview-area" id="previewArea" hidden>
+          <div class="preview-header">
+            <span class="preview-label">আপলোড করা পেজ</span>
+            <button class="btn-ghost" id="changeFileBtn" type="button">বদলান</button>
+          </div>
+          <div class="preview-image-wrap">
+            <img id="previewImg" src="" alt="মাঙ্গা প্রিভিউ" />
+          </div>
+          <button class="btn-primary" id="translateBtn" type="button">
+            <span class="btn-text">বাংলা করো</span>
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Loading State -->
+      <section class="loading-section" id="loadingSection" hidden aria-live="polite">
+        <div class="loading-inner">
+          <div class="manga-spinner" aria-hidden="true">
+            <div class="spinner-ring"></div>
+            <div class="spinner-kanji">翻</div>
+          </div>
+          <p class="loading-title">অনুবাদ হচ্ছে...</p>
+          <p class="loading-sub" id="loadingStatus">Gemini AI পেজ বিশ্লেষণ করছে</p>
+          <div class="loading-steps">
+            <div class="step active" id="step1">
+              <div class="step-dot"></div>
+              <span>ছবি প্রক্রিয়া করা হচ্ছে</span>
+            </div>
+            <div class="step" id="step2">
+              <div class="step-dot"></div>
+              <span>বাবল চিহ্নিত করা হচ্ছে</span>
+            </div>
+            <div class="step" id="step3">
+              <div class="step-dot"></div>
+              <span>বাংলায় অনুবাদ করা হচ্ছে</span>
+            </div>
+            <div class="step" id="step4">
+              <div class="step-dot"></div>
+              <span>পেজ রেন্ডার করা হচ্ছে</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Result Section -->
+      <section class="result-section" id="resultSection" hidden>
+        <div class="result-toolbar">
+          <div class="result-info">
+            <span class="result-badge" id="bubbleCount">০টি বাবল</span>
+            <span class="result-genre" id="genreTag"></span>
+          </div>
+          <div class="result-actions">
+            <button class="btn-ghost" id="toggleOriginalBtn" type="button">জাপানি দেখাও</button>
+            <button class="btn-secondary" id="downloadBtn" type="button">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 12L3 7h3V2h4v5h3L8 12z"/><path d="M2 13h12v1H2z"/></svg>
+              PNG ডাউনলোড
+            </button>
+            <button class="btn-ghost" id="resetBtn" type="button">নতুন পেজ</button>
+          </div>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="mangaCanvas"></canvas>
+        </div>
+
+        <!-- Translation sidebar -->
+        <div class="translation-list" id="translationList">
+          <h2 class="tl-header">অনুবাদের তালিকা</h2>
+          <div class="tl-items" id="tlItems"></div>
+          <button class="btn-copy" id="copyAllBtn" type="button">সব অনুবাদ কপি করুন</button>
+        </div>
+      </section>
+
+      <!-- Error Banner -->
+      <div class="error-banner" id="errorBanner" hidden role="alert">
+        <span class="error-icon" aria-hidden="true">!</span>
+        <span class="error-msg" id="errorMsg"></span>
+        <button class="error-close" id="errorClose" type="button" aria-label="বন্ধ করুন">✕</button>
+      </div>
+
+    </main>
+
+    <footer class="site-footer">
+      <p>মাঙ্গা বাংলা অনুবাদক · Google Gemini 1.5 Flash · Baloo Da 2 ফন্ট</p>
+    </footer>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
